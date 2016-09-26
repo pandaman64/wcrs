@@ -2,6 +2,13 @@ use std::env;
 use std::fs::File;
 use std::io::Read;
 
+fn is_whitespace(c: char) -> bool {
+    match c {
+        ' ' | '\t' | '\r' | '\n' => true,
+        _ => false,
+    }
+}
+
 fn main() {
     let path = env::args().nth(1).unwrap();
     let file = File::open(path).unwrap(); //assume encoded in utf-8
@@ -20,10 +27,10 @@ fn main() {
         bytes += 1;
         // chars += 1;
 
-        if word_start && !c.is_whitespace() {
+        if word_start && !is_whitespace(c) {
             words += 1;
             word_start = false;
-        } else if c.is_whitespace() {
+        } else if is_whitespace(c) {
             word_start = true;
         }
 
